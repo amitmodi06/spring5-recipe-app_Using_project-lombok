@@ -5,6 +5,7 @@ import amit.springframework.spring5recipeapp.domain.UnitOfMeasure;
 import amit.springframework.spring5recipeapp.repositories.CategoryRepository;
 import amit.springframework.spring5recipeapp.repositories.UnitOfMeasureRepository;
 import amit.springframework.spring5recipeapp.services.RecipeService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,6 +15,7 @@ import java.util.Optional;
 /**
  * created by KUAM on 4/24/2020
  */
+@Slf4j
 @Controller
 public class IndexController {
 
@@ -29,6 +31,8 @@ public class IndexController {
 
     @RequestMapping({"", "/", "/index", "/index.html"})
     public String getIndexPage(Model model){
+
+        log.debug("Getting Index Page");
 
         // *************** Code to show the Spring Data JPA data query finder method ******************
         Optional<Category> categoryOptional = categoryRepository.findByDescription("American");

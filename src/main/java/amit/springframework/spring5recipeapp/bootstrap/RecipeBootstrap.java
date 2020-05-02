@@ -4,9 +4,11 @@ import amit.springframework.spring5recipeapp.domain.*;
 import amit.springframework.spring5recipeapp.repositories.CategoryRepository;
 import amit.springframework.spring5recipeapp.repositories.RecipeRepository;
 import amit.springframework.spring5recipeapp.repositories.UnitOfMeasureRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -16,6 +18,7 @@ import java.util.Optional;
 /**
  * created by KUAM on 4/27/2020
  */
+@Slf4j
 @Component
 public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEvent> {
 
@@ -31,8 +34,10 @@ public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEven
     }
 
     @Override
+    @Transactional
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
         recipeRepository.saveAll(getRecipe());
+        log.debug("Loading BootStrap Data");
     }
 
     private List<Recipe> getRecipe(){
