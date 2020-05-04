@@ -23,7 +23,6 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     public Set<Recipe> getRecipes() {
-
         log.debug("I am in the RecipeServiceImpl class.");
 
         Set<Recipe> recipeSet = new HashSet<>();
