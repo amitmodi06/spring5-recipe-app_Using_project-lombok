@@ -1,5 +1,6 @@
 package amit.springframework.spring5recipeapp.services;
 
+import amit.springframework.spring5recipeapp.commands.RecipeCommand;
 import amit.springframework.spring5recipeapp.domain.Recipe;
 
 import java.util.Set;
@@ -10,6 +11,6 @@ import java.util.Set;
 public interface RecipeService {
 
     Set<Recipe> getRecipes();
-
     Recipe getRecipeById(long l);
+    RecipeCommand saveRecipeCommand(RecipeCommand command);
 }
