@@ -1,14 +1,11 @@
 package amit.springframework.spring5recipeapp.converters;
 
 import amit.springframework.spring5recipeapp.commands.RecipeCommand;
-import amit.springframework.spring5recipeapp.domain.Category;
 import amit.springframework.spring5recipeapp.domain.Recipe;
 import lombok.Synchronized;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
-
-import java.util.Objects;
 
 /**
  * created by KUAM on 5/12/2020
@@ -45,7 +42,7 @@ public class RecipeCommandToRecipe implements Converter<RecipeCommand, Recipe> {
         recipe.setServings(source.getServings());
         recipe.setSource(source.getSource());
         recipe.setUrl(source.getUrl());
-        recipe.setNotes(Objects.requireNonNull(notesConverter.convert(source.getNotes())));
+        recipe.setNotes(notesConverter.convert(source.getNotes()));
 
         if(source.getCategories() != null && source.getCategories().size()>0){
             source.getCategories()
