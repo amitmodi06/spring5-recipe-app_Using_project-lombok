@@ -85,15 +85,33 @@ public class IngredientServiceImpl implements IngredientService {
                                     .orElseThrow(() -> new RuntimeException("UOM not found"))); //todo address this
             }else{
                 //add new ingredient
-                recipe.addIngredient(ingredientCommandToIngredient.convert(command));
+                Ingredient ingredient = ingredientCommandToIngredient.convert(command);
+                ingredient.setRecipe(recipe);
+                recipe.addIngredient(ingredient);
             }
 
             Recipe savedRecipe = recipeRepository.save(recipe);
 
+            //here I'm verifying by Id, it works great if it is already persisted entity but on a brand new ingredient
+            //we don't have id, so we'll proceed as next
+            Optional<Ingredient> savedIngredientOptional = savedRecipe.getIngredients().stream()
+                    .filter(recipeIngredients -> recipeIngredients.getId().equals(command.getId()))
+                    .findFirst();
+
+            //if new ingredient so we'll not have id, we'll check for description
+            if(!savedIngredientOptional.isPresent()){
+                //not totally safe.... but best guess because we don't specify anyting description, amount or UOM unique
+                //so we could get duplicate values here.
+                savedIngredientOptional = savedRecipe.getIngredients().stream()
+                        .filter(recpeIngredient -> recpeIngredient.getDescription().equals(command.getDescription()))
+                        .filter(recpeIngredient -> recpeIngredient.getAmount().equals(command.getAmount()))
+                        .filter(recpeIngredient -> recpeIngredient.getUom().getId().equals(command.getUom().getId()))
+                .findFirst();
+
+            }
+
             //todo check for fail
-            return ingredientToIngredientCommand.convert(savedRecipe.getIngredients().stream()
-                .filter(recipeIngredients -> recipeIngredients.getId().equals(command.getId()))
-                .findFirst().get());
+            return ingredientToIngredientCommand.convert(savedIngredientOptional.get());
         }
     }
 }
