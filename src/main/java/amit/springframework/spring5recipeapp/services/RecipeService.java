@@ -11,7 +11,7 @@ import java.util.Set;
 public interface RecipeService {
 
     Set<Recipe> getRecipes();
-    Recipe getRecipeById(long l);
+    Recipe getRecipeById(Long l);
     RecipeCommand findCommandById(Long l);
     RecipeCommand saveRecipeCommand(RecipeCommand command);
 
