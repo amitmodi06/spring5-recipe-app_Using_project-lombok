@@ -37,7 +37,9 @@ jobs:
             - ~/.m2
           key: v1-dependencies-{{ checksum "pom.xml" }}
 
-      # run tests!
-      - run: mvn integration-test
+      # run tests! and gen code coverage
+      - run: mvn integration-test cobertura:cobertura
 
-      - run: mvn sonar:sonar -Dsonar.projectKey=sfg-beer-pub -Dsonar.organization=sfg-beer-works -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=c8ba5345c3cfa77e813c8b5415e6dc96f46b34e9
+      - run:
+          name: Send to CodeCov
+          command: bash <(curl -s https://codecov.io/bash)
